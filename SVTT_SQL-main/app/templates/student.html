@@ -1,27 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Thông tin sinh viên | HTQL SVTT</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Sweet alerts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      margin: auto;
+    }
+  </style>
+
+  <script>
+    $(document).ready(function() {
+      $("#submitBtn").click(function() {
+        var mssv = $("#sinhvien_mssv").val();
+        var hoten = $("#sinhvien_hoten").val();
+        var gioitinh = $("#sinhvien_gioitinh").val();
+        var sdt = $("#sinhvien_sdt").val();
+        var email = $("#sinhvien_email").val();
+        var diachi = $("#sinhvien_diachi").val();
+        var malop = $("#sinhvien_malop").val();
+        var khoa = $("#sinhvien_khoa").val();
+        var nganh = $("#sinhvien_nganh").val();
+        var truong = $("#sinhvien_truong").val();
+
+        // Kiểm tra không được để trống
+        if (mssv === '' || hoten === '' || gioitinh === '' || sdt === '' || email === '' || diachi === '' || malop === '' || khoa === '' || nganh === '' || truong === '') {
+          Swal.fire({
+            title: 'Lỗi!',
+            text: 'Vui lòng điền đầy đủ thông tin.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+          return; // Dừng xử lý nếu có trường rỗng
+        }
+
+        // Gửi dữ liệu đến server-side sử dụng AJAX
+        $.ajax({
+          type: "POST",
+          url: "save_student.php",
+          data: {
+            mssv: mssv,
+            hoten: hoten,
+            gioitinh: gioitinh,
+            sdt: sdt,
+            email: email,
+            diachi: diachi,
+            malop: malop,
+            khoa: khoa,
+            nganh: nganh,
+            truong: truong
+          },
+          success: function(response) {
+            // Xử lý kết quả trả về từ server
+            console.log(response);
+
+            if (response === 'EXIST') {
+              // Nếu Mã số sinh viên tồn tại, hiển thị thông báo và khóa nút
+              Swal.fire({
+                title: 'Lỗi!',
+                text: 'Sinh viên đã đăng ký rồi.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+              });
+              $("#submitBtn").prop('disabled', true); // Khóa nút
+            } else {
+              // Hiển thị thông báo SweetAlert2 khi lưu thành công
+              Swal.fire({
+                title: 'Thành công!',
+                text: 'Thông tin sinh viên đã được lưu.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+              });
+            }
+          },
+          error: function(error) {
+            console.log(error);
+
+            // Hiển thị thông báo SweetAlert2 khi có lỗi
+            Swal.fire({
+              title: 'Lỗi!',
+              text: 'Có lỗi xảy ra khi lưu thông tin.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+      });
+    });
+  </script>
+
 </head>
+
 <body class="hold-transition login-page mt-4 mb-4 row">
-<div class="login-box col-lg-4">
-  <div class="card card-outline card-primary">
-    <div class="card-header text-center">
-      <b class="h3">THÔNG TIN SINH VIÊN</b>
-    </div>
-    <div class="card-body">
-      <p class="login-box-msg" style="color: red;" id="message">Sinh viên vui lòng điền đầy đủ thông tin.</p>
+  <div class="login-box col-lg-4">
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center bg-primary">
+        <b class="h3 text-white">THÔNG TIN SINH VIÊN</b>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg text-danger" id="message">Sinh viên vui lòng điền đầy đủ thông tin.</p>
         <div class="form-group mb-3">
           <label for="sinhvien_mssv">Mã số sinh viên</label>
           <input type="text" class="form-control" id="sinhvien_mssv">
@@ -33,6 +139,7 @@
         <div class="form-group mb-3">
           <label for="sinhvien_gioitinh">Giới tính</label>
           <select id="sinhvien_gioitinh" class="form-control">
+            <option value="" disabled selected>Chọn giới tính</option>
             <option value="1">Nam</option>
             <option value="0">Nữ</option>
           </select>
@@ -59,11 +166,19 @@
         </div>
         <div class="form-group mb-3">
           <label for="sinhvien_nganh">Ngành học</label>
-          <select class="form-control" id="sinhvien_nganh"></select>
+          <select class="form-control" id="sinhvien_nganh">
+            <option value="" disabled selected>Chọn ngành</option>
+            <option value="cntt">Công nghệ thông tin</option>
+            <option value="kt">Kinh tế</option>
+          </select>
         </div>
         <div class="form-group mb-3">
           <label for="sinhvien_truong">Trường</label>
-          <select class="form-control" id="sinhvien_truong"></select>
+          <select class="form-control" id="sinhvien_truong">
+            <option value="" disabled selected>Chọn Trường</option>
+            <option value="cntt">Sư Phạm Kĩ Thuật Vĩnh Long</option>
+            <option value="kt">Lưu Văn Liệt</option>
+          </select>
         </div>
         <div class="row">
           <div class="col-12">
@@ -71,24 +186,10 @@
           </div>
           <!-- /.col -->
         </div>
+      </div>
+      <!-- /.login-card-body -->
     </div>
-    <!-- /.login-card-body -->
   </div>
-</div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<!-- Sweet alerts -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<script src="../../dist/js/pages/student.js"></script>
 </body>
+
 </html>
