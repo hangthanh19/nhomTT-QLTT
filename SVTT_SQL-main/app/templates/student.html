@@ -1,3 +1,4 @@
+<!--student.html-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,38 +6,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Thông tin sinh viên | HTQL SVTT</title>
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-
-  <!-- SweetAlert2 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-
+  <link rel="stylesheet" href="style.css">
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
   <!-- Sweet alerts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <style>
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .login-box {
-      margin: auto;
-    }
-  </style>
 
   <script>
     $(document).ready(function() {
@@ -146,7 +120,7 @@
         </div>
         <div class="form-group mb-3">
           <label for="sinhvien_sdt">Số điện thoại</label>
-          <input type="number" class="form-control" id="sinhvien_sdt">
+          <input type="number" class="form-control" id="sinhvien_sdt" maxlength="10">
         </div>
         <div class="form-group mb-3">
           <label for="sinhvien_email">Email</label>
@@ -170,14 +144,16 @@
             <option value="" disabled selected>Chọn ngành</option>
             <option value="cntt">Công nghệ thông tin</option>
             <option value="kt">Kinh tế</option>
+            <option value="ty">Thú y</option>
+            <option value="ot">Công nghệ ô tô</option>
           </select>
         </div>
         <div class="form-group mb-3">
           <label for="sinhvien_truong">Trường</label>
           <select class="form-control" id="sinhvien_truong">
             <option value="" disabled selected>Chọn Trường</option>
-            <option value="cntt">Sư Phạm Kĩ Thuật Vĩnh Long</option>
-            <option value="kt">Lưu Văn Liệt</option>
+            <option value="spkt">ĐH Sư Phạm Kỹ Thuật Vĩnh Long</option>
+            <option value="ct">ĐH Cần Thơ</option>
           </select>
         </div>
         <div class="row">
