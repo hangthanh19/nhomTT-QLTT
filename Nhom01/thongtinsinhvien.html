@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhom9_QLTT_ThongTinSV</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Thông tin sinh viên</h1>
+    <form>
+      <label for="student-id">Mã số sinh viên:</label>
+      <input type="text" id="student-id" name="student-id" required>
+  
+      <label for="full-name">Họ và tên:</label>
+      <input type="text" id="full-name" name="full-name" required>
+  
+      <label>Giới tính:</label>
+      <select name="major" required>
+        <option value="">-- Chọn giới tính --</option>
+        <option value="Công nghệ thông tin">Nam</option>
+        <option value="Kinh tế">Nữ</option>
+        <option value="Kinh tế">Khác</option>
+        
+      </select>
+  
+      <label for="phone">Số điện thoại:</label>
+      <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+      <small>Vui lòng nhập 10 chữ số.</small>
+  
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+  
+      <label for="address">Địa chỉ:</label>
+      <input type="text" id="address" name="address" required>
+  
+      <label for="class-code">Mã lớp:</label>
+      <input type="text" id="class-code" name="class-code" required>
+  
+      <label>Khóa:</label>
+      <select name="batch" required>
+        <option value="">-- Chọn khóa --</option>
+        <option value="K21">Khóa 2020</option>
+        <option value="K22">Khóa 2021</option>
+        <option value="K23">Khóa 2022</option>
+      </select>
+  
+      <label>Ngành học:</label>
+      <select name="major" required>
+        <option value="">-- Chọn ngành học --</option>
+        <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+        <option value="Kinh tế">Kinh tế</option>
+        <option value="Du lịch lữ hành">Du lịch lữ hành</option>
+      </select>
+  
+      <label>Trường:</label>
+      <select name="university" required>
+        <option value="">-- Chọn trường --</option>
+        <option value="Đại học SPKT Vĩnh Long">Đại học SPKT Vĩnh Long</option>
+        <option value="Đại học Xây dựng miền Tây">Đại học Xây dựng miền Tây</option>
+        <option value="Đại học Cần Thơ">Đại học Cần Thơ</option>
+      </select>
+  
+      <input type="submit" value="Lưu thông tin">
+    </form>
+  </body>
+</html>
