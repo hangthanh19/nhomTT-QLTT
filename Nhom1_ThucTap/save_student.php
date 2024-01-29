@@ -1,4 +1,3 @@
-<!--save_student.php-->
 <?php
 $servername = "localhost";
 $username = "root";

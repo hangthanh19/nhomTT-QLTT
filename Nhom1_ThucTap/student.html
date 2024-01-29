@@ -1,4 +1,3 @@
-<!--student.html-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,82 +13,94 @@
 
   <script>
     $(document).ready(function() {
-      $("#submitBtn").click(function() {
-        var mssv = $("#sinhvien_mssv").val();
-        var hoten = $("#sinhvien_hoten").val();
-        var gioitinh = $("#sinhvien_gioitinh").val();
-        var sdt = $("#sinhvien_sdt").val();
-        var email = $("#sinhvien_email").val();
-        var diachi = $("#sinhvien_diachi").val();
-        var malop = $("#sinhvien_malop").val();
-        var khoa = $("#sinhvien_khoa").val();
-        var nganh = $("#sinhvien_nganh").val();
-        var truong = $("#sinhvien_truong").val();
+  $("#submitBtn").click(function() {
+    var mssv = $("#sinhvien_mssv").val();
+    var hoten = $("#sinhvien_hoten").val();
+    var gioitinh = $("#sinhvien_gioitinh").val();
+    var sdt = $("#sinhvien_sdt").val();
+    var email = $("#sinhvien_email").val();
+    var diachi = $("#sinhvien_diachi").val();
+    var malop = $("#sinhvien_malop").val();
+    var khoa = $("#sinhvien_khoa").val();
+    var nganh = $("#sinhvien_nganh").val();
+    var truong = $("#sinhvien_truong").val();
 
-        // Kiểm tra không được để trống
-        if (mssv === '' || hoten === '' || gioitinh === '' || sdt === '' || email === '' || diachi === '' || malop === '' || khoa === '' || nganh === '' || truong === '') {
+    // Kiểm tra không được để trống
+    if (mssv === '' || hoten === '' || gioitinh === '' || sdt === '' || email === '' || diachi === '' || malop === '' || khoa === '' || nganh === '' || truong === '') {
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Vui lòng điền đầy đủ thông tin.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return; // Dừng xử lý nếu có trường rỗng
+    }
+
+    // Kiểm tra ngành học và trường đã được chọn chưa
+    if (nganh === null || nganh === '' || truong === null || truong === '') {
+      Swal.fire({
+        title: 'Lỗi!',
+        text: 'Vui lòng điền đầy đủ thông tin.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return; // Dừng xử lý nếu chưa chọn ngành học hoặc trường
+    }
+
+    // Gửi dữ liệu đến server-side sử dụng AJAX
+    $.ajax({
+      type: "POST",
+      url: "save_student.php",
+      data: {
+        mssv: mssv,
+        hoten: hoten,
+        gioitinh: gioitinh,
+        sdt: sdt,
+        email: email,
+        diachi: diachi,
+        malop: malop,
+        khoa: khoa,
+        nganh: nganh,
+        truong: truong
+      },
+      success: function(response) {
+        // Xử lý kết quả trả về từ server
+        console.log(response);
+
+        if (response === 'EXIST') {
+          // Nếu Mã số sinh viên tồn tại, hiển thị thông báo và khóa nút
           Swal.fire({
             title: 'Lỗi!',
-            text: 'Vui lòng điền đầy đủ thông tin.',
+            text: 'Sinh viên đã đăng ký rồi.',
             icon: 'error',
             confirmButtonText: 'OK'
           });
-          return; // Dừng xử lý nếu có trường rỗng
+          $("#submitBtn").prop('disabled', true); // Khóa nút
+        } else {
+          // Hiển thị thông báo SweetAlert2 khi lưu thành công
+          Swal.fire({
+            title: 'Thành công!',
+            text: 'Thông tin sinh viên đã được lưu.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
         }
+      },
+      error: function(error) {
+        console.log(error);
 
-        // Gửi dữ liệu đến server-side sử dụng AJAX
-        $.ajax({
-          type: "POST",
-          url: "save_student.php",
-          data: {
-            mssv: mssv,
-            hoten: hoten,
-            gioitinh: gioitinh,
-            sdt: sdt,
-            email: email,
-            diachi: diachi,
-            malop: malop,
-            khoa: khoa,
-            nganh: nganh,
-            truong: truong
-          },
-          success: function(response) {
-            // Xử lý kết quả trả về từ server
-            console.log(response);
-
-            if (response === 'EXIST') {
-              // Nếu Mã số sinh viên tồn tại, hiển thị thông báo và khóa nút
-              Swal.fire({
-                title: 'Lỗi!',
-                text: 'Sinh viên đã đăng ký rồi.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-              });
-              $("#submitBtn").prop('disabled', true); // Khóa nút
-            } else {
-              // Hiển thị thông báo SweetAlert2 khi lưu thành công
-              Swal.fire({
-                title: 'Thành công!',
-                text: 'Thông tin sinh viên đã được lưu.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-              });
-            }
-          },
-          error: function(error) {
-            console.log(error);
-
-            // Hiển thị thông báo SweetAlert2 khi có lỗi
-            Swal.fire({
-              title: 'Lỗi!',
-              text: 'Có lỗi xảy ra khi lưu thông tin.',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            });
-          }
+        // Hiển thị thông báo SweetAlert2 khi có lỗi
+        Swal.fire({
+          title: 'Lỗi!',
+          text: 'Có lỗi xảy ra khi lưu thông tin.',
+          icon: 'error',
+          confirmButtonText: 'OK'
         });
-      });
+      }
     });
+  });
+});
+
   </script>
 
 </head>
