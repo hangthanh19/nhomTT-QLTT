@@ -8,64 +8,164 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- AdminLTE CSS -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+  <style>
+    body {
+      background-color: #f4f6f9;
+    }
+
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background-color: #007bff;
+      color: #fff;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .form-select, .form-control[disabled] {
+      background-color: #f8f9fa;
+    }
+
+    #submitBtn {
+      background-color: #28a745;
+      border-color: #28a745;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    #submitBtn:hover {
+      background-color: #218838;
+      border-color: #218838;
+    }
+  </style>
 </head>
 <body class="hold-transition login-page mt-4 mb-4">
-<div class="login-box" style="width: 800px;">
-  <div class="card card-outline card-primary">
-    <div class="card-header text-center">
-      <b class="h3">DANH SÁCH NHÓM THỰC TẬP</b>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card card-outline card-primary">
+          <div class="card-header text-center">
+            <h3 class="card-title">DANH SÁCH NHÓM THỰC TẬP</h3>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="danhsachnhom" class="form-label">Nhóm</label>
+              <select class="form-select" id="danhsachnhom">
+                <option value="" selected disabled>Chọn nhóm</option>
+                <option value="1">Nhóm 1</option>
+                <option value="2">Nhóm 2</option>
+                <option value="3">Nhóm 3</option>
+              </select>
+            </div>
+            <div id="thongtinnhom" style="display: none;">
+              <div class="mb-3">
+                <label for="nguoihuongdan" class="form-label">Người hướng dẫn</label>
+                <a target="_blank" rel="noopener noreferrer" id="profile_nguoihuongdan">
+                  <input type="text" class="form-control" id="nguoihuongdan" disabled>
+                </a>
+              </div>
+              <div class="mb-3">
+                <label for="mota" class="form-label">Mô tả</label>
+                <textarea class="form-control" id="mota" rows="5" disabled></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="masv" class="form-label">Mã số sinh viên</label>
+                <input type="text" class="form-control" id="masv">
+              </div>
+              <div class="mb-3">
+                <label for="soluongsv" class="form-label">Số lượng sinh viên đã đăng ký</label>
+                <input type="number" class="form-control" id="soluongsv" disabled>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <button id="submitBtn" class="btn btn-success">ĐĂNG KÝ NHÓM</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card-body">
-      <!-- <p class="login-box-msg" style="color: red;" id="message">Sinh viên vui lòng điền đầy đủ thông tin.</p> -->
-        <div class="form-group mb-3">
-          <label for="danhsachnhom">Nhóm</label>
-          <select class="form-control" id="danhsachnhom"></select>
-        </div>
-        <div id="thongtinnhom">
-          <div class="form-group mb-3">
-            <label for="nguoihuongdan">Người hướng dẫn</label>
-            <a target="_blank" rel="noopener noreferrer" id="profile_nguoihuongdan">
-              <input type="text" class="form-control" id="nguoihuongdan" disabled>
-            </a>
-          </div>
-          <div class="form-group mb-3">
-            <label for="mota">Mô tả</label>
-            <textarea class="form-control" id="mota" rows="10" disabled></textarea>
-          </div>
-          <div class="form-group mb-3">
-            <label for="soluongsv">Số lượng sinh viên đã đăng ký</label>
-            <input type="number" class="form-control" id="soluongsv" disabled>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <button id="submitBtn" class="btn btn-primary btn-block">ĐĂNG KÝ NHÓM</button>
-          </div>
-          <!-- /.col -->
-        </div>
-    </div>
-    <!-- /.login-card-body -->
   </div>
-</div>
-<!-- /.login-box -->
 
-<!-- jQuery -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<!-- Sweet alerts -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<script src="../../dist/js/pages/select_group.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  <!-- AdminLTE App -->
+  <script src="../../dist/js/adminlte.min.js"></script>
+  <script src="../../dist/js/pages/select_group.js"></script>
+  <script>
+    $(document).ready(function() {
+      const nhom1 = { nguoihuongdan: "Phan Thanh Giảng", mota: "ok1" };
+      const nhom2 = { nguoihuongdan: "Dương Tuấn Thoại", mota: "trùm  trường" };
+      const nhom3 = { nguoihuongdan: "Huỳnh Tấn Phát", mota: "báo" };
+
+      $('#danhsachnhom').change(function() {
+        
+        const selectedNhom = $(this).val();
+
+        if (selectedNhom === "") {
+          $('#thongtinnhom').hide();
+        } else {
+          $('#thongtinnhom').show();
+        }
+
+        switch (selectedNhom) {
+          case '1':
+            updateThongTinNhom(nhom1);
+            break;
+          case '2':
+            updateThongTinNhom(nhom2);
+            break;
+          case '3':
+            updateThongTinNhom(nhom3);
+            break;
+          default:
+            updateThongTinNhom({ nguoihuongdan: "", mota: "" });
+            break;
+        }
+      });
+
+      $('#submitBtn').click(function() {
+        const mssv = $('#masv').val();
+        const nhom = $('#danhsachnhom').val();
+
+        $.ajax({
+          type: 'POST',
+          url: 'register_group.php',
+          data: { mssv: mssv, nhom: nhom },
+          dataType: 'json',
+          success: function(response) {
+            if (response.status === 'SUCCESS') {
+              alert('Đăng ký nhóm thành công');
+              // Update số lượng sinh viên đã đăng ký (cần thay đổi dựa trên dữ liệu thực tế)
+              $('#soluongsv').val(response.soluongsv);
+            } else if (response.status === 'NOT_FOUND') {
+              alert('Sinh viên chưa đăng ký thông tin');
+            } else {
+              alert('Có lỗi xảy ra khi đăng ký nhóm');
+            }
+          },
+          error: function() {
+            alert('Có lỗi xảy ra khi gửi yêu cầu đăng ký nhóm');
+          }
+        });
+      });
+
+      function updateThongTinNhom(nhom) {
+        $('#nguoihuongdan').val(nhom.nguoihuongdan);
+        $('#mota').val(nhom.mota);
+      }
+    });
+  </script>
 </body>
 </html>
