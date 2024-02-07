@@ -70,13 +70,11 @@
             <div id="thongtinnhom" style="display: none;">
               <div class="mb-3">
                 <label for="nguoihuongdan" class="form-label">Người hướng dẫn</label>
-                <a target="_blank" rel="noopener noreferrer" id="profile_nguoihuongdan">
-                  <input type="text" class="form-control" id="nguoihuongdan" disabled>
-                </a>
+                <input type="text" class="form-control" id="nguoihuongdan">
               </div>
               <div class="mb-3">
                 <label for="mota" class="form-label">Mô tả</label>
-                <textarea class="form-control" id="mota" rows="5" disabled></textarea>
+                <textarea class="form-control" id="mota" rows="5"></textarea>
               </div>
               <div class="mb-3">
                 <label for="masv" class="form-label">Mã số sinh viên</label>
@@ -84,8 +82,9 @@
               </div>
               <div class="mb-3">
                 <label for="soluongsv" class="form-label">Số lượng sinh viên đã đăng ký</label>
-                <input type="number" class="form-control" id="soluongsv" disabled>
+                <span id="soluongsv-text"></span>
               </div>
+              
             </div>
             <div class="row">
               <div class="col-12">
@@ -104,70 +103,75 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <!-- AdminLTE App -->
   <script src="../../dist/js/adminlte.min.js"></script>
-  <script src="../../dist/js/pages/select_group.js"></script>
   <script>
-    $(document).ready(function() {
-      const nhom1 = { nguoihuongdan: "Phan Thanh Giảng", mota: "ok1" };
-      const nhom2 = { nguoihuongdan: "Dương Tuấn Thoại", mota: "trùm  trường" };
-      const nhom3 = { nguoihuongdan: "Huỳnh Tấn Phát", mota: "báo" };
+   $(document).ready(function() {
+    const nhom1 = { nguoihuongdan: "Phan Thanh Giảng", mota: "ok1" };
+    const nhom2 = { nguoihuongdan: "Dương Tuấn Thoại", mota: "trùm  trường" };
+    const nhom3 = { nguoihuongdan: "Huỳnh Tấn Phát", mota: "báo" };
 
-      $('#danhsachnhom').change(function() {
-        
+    $('#danhsachnhom').change(function() {
         const selectedNhom = $(this).val();
 
         if (selectedNhom === "") {
-          $('#thongtinnhom').hide();
+            $('#thongtinnhom').hide();
         } else {
-          $('#thongtinnhom').show();
+            $('#thongtinnhom').show();
         }
 
+        // Cập nhật thông tin của nhóm vào các thẻ HTML tương ứng
         switch (selectedNhom) {
-          case '1':
-            updateThongTinNhom(nhom1);
-            break;
-          case '2':
-            updateThongTinNhom(nhom2);
-            break;
-          case '3':
-            updateThongTinNhom(nhom3);
-            break;
-          default:
-            updateThongTinNhom({ nguoihuongdan: "", mota: "" });
-            break;
+            case '1':
+                updateThongTinNhom(nhom1);
+                break;
+            case '2':
+                updateThongTinNhom(nhom2);
+                break;
+            case '3':
+                updateThongTinNhom(nhom3);
+                break;
+            default:
+                updateThongTinNhom({ nguoihuongdan: "", mota: "" });
+                break;
         }
-      });
 
-      $('#submitBtn').click(function() {
-        const mssv = $('#masv').val();
-        const nhom = $('#danhsachnhom').val();
-
+        // Gửi yêu cầu AJAX để lấy số lượng sinh viên đã đăng ký cho nhóm được chọn
         $.ajax({
-          type: 'POST',
-          url: 'register_group.php',
-          data: { mssv: mssv, nhom: nhom },
-          dataType: 'json',
-          success: function(response) {
-            if (response.status === 'SUCCESS') {
-              alert('Đăng ký nhóm thành công');
-              // Update số lượng sinh viên đã đăng ký (cần thay đổi dựa trên dữ liệu thực tế)
-              $('#soluongsv').val(response.soluongsv);
-            } else if (response.status === 'NOT_FOUND') {
-              alert('Sinh viên chưa đăng ký thông tin');
-            } else {
-              alert('Có lỗi xảy ra khi đăng ký nhóm');
+            type: "POST",
+            url: "get_group_count.php", // Đường dẫn đến tập tin PHP xử lý
+            data: { nhom: selectedNhom },
+            success: function(response) {
+                $('#soluongsv-text').text(response); // Hiển thị số lượng sinh viên
             }
-          },
-          error: function() {
-            alert('Có lỗi xảy ra khi gửi yêu cầu đăng ký nhóm');
-          }
         });
-      });
-
-      function updateThongTinNhom(nhom) {
-        $('#nguoihuongdan').val(nhom.nguoihuongdan);
-        $('#mota').val(nhom.mota);
-      }
     });
+
+    // Hàm để cập nhật thông tin của nhóm vào các thẻ HTML
+    function updateThongTinNhom(nhom) {
+        $('#nguoihuongdan').val(nhom.nguoihuongdan); // Cập nhật người hướng dẫn
+        $('#mota').val(nhom.mota); // Cập nhật mô tả
+        
+    }
+
+    // Xử lý sự kiện khi nhấn nút "ĐĂNG KÝ NHÓM"
+    $("#submitBtn").click(function() {
+        var masv = $("#masv").val(); // Lấy giá trị MSSV từ trường input
+        var nhom = $("#danhsachnhom").val(); // Lấy giá trị nhóm từ dropdown
+        var nguoihuongdan = $("#nguoihuongdan").val(); // Lấy giá trị người hướng dẫn
+        var mota = $("#mota").val(); // Lấy giá trị mô tả
+
+        // Gửi yêu cầu AJAX để kiểm tra và đăng ký nhóm
+        $.ajax({
+            type: "POST",
+            url: "register_group.php", // Đường dẫn đến tập tin PHP xử lý đăng ký nhóm
+            data: { masv: masv, danhsachnhom: nhom, nguoihuongdan: nguoihuongdan, mota: mota },
+            success: function(response) {
+                alert(response); // Hiển thị thông báo từ máy chủ
+                
+            }
+        });
+    });
+});
+
   </script>
 </body>
 </html>

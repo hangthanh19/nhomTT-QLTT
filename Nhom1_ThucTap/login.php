@@ -30,7 +30,7 @@
                         {
 
                             $_SESSION['user_id'] = $user_data['user_id'];
-                            header("Location: index.php");
+                            header("Location: ds_nhomtt.php");
                             die;
                         }
                     }

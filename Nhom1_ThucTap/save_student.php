@@ -24,8 +24,8 @@ $khoa = mysqli_real_escape_string($conn, $_POST['khoa']);
 $nganh = mysqli_real_escape_string($conn, $_POST['nganh']);
 $truong = mysqli_real_escape_string($conn, $_POST['truong']);
 
-// Kiểm tra xem Mã số sinh viên đã tồn tại hay chưa
-$checkExist = $conn->prepare("SELECT mssv FROM students WHERE mssv = ?");
+// Kiểm tra xem Mã số sinh viên đã tồn tại trong cơ sở dữ liệu hay không
+$checkExist = $conn->prepare("SELECT id FROM students WHERE mssv = ?");
 $checkExist->bind_param("s", $mssv);
 $checkExist->execute();
 $checkExist->store_result();
