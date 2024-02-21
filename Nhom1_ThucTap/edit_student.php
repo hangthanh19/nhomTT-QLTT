@@ -176,7 +176,7 @@ $conn->close();
             </div>
             <div class="form-group">
                 <label for="khoa">Khóa:</label>
-                <input type="number" class="form-control" name="khoa" value="<?php echo $khoa; ?>">
+                <input type="number" class="form-control" name="khoa" value="<?php echo $khoa; ?>" min="0">
             </div>
             <div class="form-group">
                 <label for="truong">Trường:</label>
