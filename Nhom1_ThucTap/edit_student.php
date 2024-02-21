@@ -11,11 +11,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Khởi tạo các biến để lưu thông tin sinh viên
+$mssv = $hoten = $gioitinh = $sdt = $email = $diachi = $malop = $khoa = $nganh = $truong = $nhom = $nguoihuongdan = "";
+
 // Lấy thông tin sinh viên cần chỉnh sửa từ URL
 if (isset($_GET['student_id'])) {
     $student_id = $_GET['student_id'];
 
-    // Truy vấn để lấy thông tin sinh viên từ cơ sở dữ liệu
+    // Truy vấn để lấy thông tin sinh viên từ bảng students
     $sql = "SELECT * FROM students WHERE id = $student_id";
     $result = $conn->query($sql);
 
@@ -30,10 +33,21 @@ if (isset($_GET['student_id'])) {
         $diachi = $row["diachi"];
         $malop = $row["malop"];
         $khoa = $row["khoa"];
-        $truong = $row["truong"];
         $nganh = $row["nganh"];
+        $truong = $row["truong"];
     } else {
         echo "Không tìm thấy sinh viên.";
+    }
+
+    // Truy vấn để lấy thông tin nhóm và người hướng dẫn từ bảng dknhom
+    $sql_dknhom = "SELECT nhom, nguoihuongdan FROM dknhom WHERE mssv = '$mssv'";
+    $result_dknhom = $conn->query($sql_dknhom);
+
+    if ($result_dknhom->num_rows > 0) {
+        // Hiển thị thông tin nhóm và người hướng dẫn
+        $row_dknhom = $result_dknhom->fetch_assoc();
+        $nhom = $row_dknhom["nhom"];
+        $nguoihuongdan = $row_dknhom["nguoihuongdan"];
     }
 }
 
@@ -176,6 +190,15 @@ $conn->close();
                     <?php echo $nganh_options; ?>
                 </select>
             </div>
+            <!-- Hiển thị thông tin nhóm và người hướng dẫn -->
+            <div class="form-group">
+                <label for="nhom">Nhóm:</label>
+                <input type="text" class="form-control" name="nhom" value="<?php echo $nhom; ?>" readonly>
+            </div>
+            <div class="form-group">
+                <label for="nguoihuongdan">Người hướng dẫn:</label>
+                <input type="text" class="form-control" name="nguoihuongdan" value="<?php echo $nguoihuongdan; ?>" readonly>
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Lưu</button>
         </form>
     </div>
@@ -187,8 +210,3 @@ $conn->close();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
-
-
-
-
